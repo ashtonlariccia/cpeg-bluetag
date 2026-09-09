@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: bluetag
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      # Render injects PORT automatically; the app already reads process.env.PORT.
+      # A strong session secret is generated once and kept across deploys, so the
+      # weak "change-me-in-production" default in .env.example is never used in prod.
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
